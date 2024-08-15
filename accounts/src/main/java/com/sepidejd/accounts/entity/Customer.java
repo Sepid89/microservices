@@ -1,9 +1,6 @@
 package com.sepidejd.accounts.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,13 +15,12 @@ import org.hibernate.annotations.GenericGenerator;
 public class Customer extends BaseEntity{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-    @GenericGenerator(name="native",strategy = "native")
-    private Long customerId;
+    @Column(name = "account_number")
+    private Long accountNumber;
 
-    private String name;
+    @Column(name = "account_type")
+    private String accountType;
 
-    private String email;
-
-    private String mobileNumber;
+    @Column(name = "branch_address")
+    private String branchAddress;
 }
