@@ -15,12 +15,14 @@ import org.hibernate.annotations.GenericGenerator;
 public class Customer extends BaseEntity{
 
     @Id
-    @Column(name = "account_number")
-    private Long accountNumber;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="customer_id")
+    private Long customerId;
 
-    @Column(name = "account_type")
-    private String accountType;
+    private String name;
 
-    @Column(name = "branch_address")
-    private String branchAddress;
+    private String email;
+
+    @Column(name="mobile_number")
+    private String mobileNumber;
 }
