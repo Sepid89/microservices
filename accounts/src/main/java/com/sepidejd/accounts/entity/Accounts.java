@@ -2,8 +2,6 @@ package com.sepidejd.accounts.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
-import org.springframework.web.service.annotation.GetExchange;
 
 @Entity
 @Getter
