@@ -1,7 +1,6 @@
 package com.sepidejd.accounts.controller;
 
 import com.sepidejd.accounts.constants.AccountsConstants;
-import com.sepidejd.accounts.dto.AccountsDto;
 import com.sepidejd.accounts.dto.CustomerDto;
 import com.sepidejd.accounts.dto.ResponseDto;
 import com.sepidejd.accounts.service.IAccountsService;
@@ -18,10 +17,7 @@ public class AccountsController {
 
     private IAccountsService iAccountsService;
 
-    /**
-     *
-     * @param customerDto - CustomerDto Object
-     */
+
     @PostMapping("/create")
     public ResponseEntity<ResponseDto> createAccount(@RequestBody CustomerDto customerDto){
         iAccountsService.createAccount(customerDto);
@@ -29,14 +25,9 @@ public class AccountsController {
                 .body(new ResponseDto(AccountsConstants.STATUS_200,AccountsConstants.MESSAGE_200));
     }
 
-    /**
-     *
-     * @param mobileNumber - Input Mobile Number
-     * @return Accounts Details based on a given mobileNumber
-     */
-
     @GetMapping("/fetch")
     public ResponseEntity<CustomerDto> fetchAccountDetails(@RequestParam String mobileNumber){
-
+       CustomerDto customerDto = iAccountsService.fetchAccount(mobileNumber);
+       return ResponseEntity.status(HttpStatus.FOUND).body(customerDto);
     }
 }

@@ -1,10 +1,13 @@
 package com.sepidejd.accounts.service.impl;
 
 import com.sepidejd.accounts.constants.AccountsConstants;
+import com.sepidejd.accounts.dto.AccountsDto;
 import com.sepidejd.accounts.dto.CustomerDto;
 import com.sepidejd.accounts.entity.Accounts;
 import com.sepidejd.accounts.entity.Customer;
 import com.sepidejd.accounts.exception.CustomerAlreadyExistsException;
+import com.sepidejd.accounts.exception.ResourceNotFoundExcetion;
+import com.sepidejd.accounts.mapper.AccountsMapper;
 import com.sepidejd.accounts.mapper.CustomerMapper;
 import com.sepidejd.accounts.repository.AccountsRepository;
 import com.sepidejd.accounts.repository.CustomerRepository;
@@ -22,7 +25,6 @@ public class AccountsServiceImp implements IAccountsService {
 
     private AccountsRepository accountsRepository;
     private CustomerRepository customerRepository;
-
 
     /**
      *
@@ -54,5 +56,25 @@ public class AccountsServiceImp implements IAccountsService {
         newAccount.setCreatedAt(LocalDateTime.now());
         newAccount.setCreatedBy("Anonymous");
         return newAccount;
+    }
+
+    /**
+     *
+     * @param mobileNumber - Input Mobile Number
+     * @return Accounts Details based on a given mobileNumber
+     */
+
+    @Override
+    public CustomerDto fetchAccount(String mobileNumber) {
+        Customer customer = customerRepository.findByMobileNumber(mobileNumber)
+                .orElseThrow(()->
+                        new ResourceNotFoundExcetion("Customer","mobileNumber", mobileNumber));
+
+      Accounts accounts = accountsRepository.findByCustomerId(customer.getCustomerId()).orElseThrow(
+                ()-> new ResourceNotFoundExcetion("Account", "customerId", customer.getCustomerId().toString())
+        );
+      CustomerDto customerDto = CustomerMapper.mapToCustomerDto(customer, new CustomerDto());
+      customerDto.setAccountsDto(AccountsMapper.mapToAccountsDto(accounts,new AccountsDto()));
+      return customerDto;
     }
 }
